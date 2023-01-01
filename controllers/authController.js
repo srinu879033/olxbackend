@@ -18,7 +18,7 @@ exports.signUp = catchAsync(async (request, response, next) => {
       name: name,
       mailId: mailId,
     });
-    response.send("User Created Successfully");
+    response.send({ msg: "User Created Successfully" });
     let toMail = mailId;
     let text = `You have successfully registered with the username: ${username} in FashionFit Organization`;
     let subject = "Successful Registration";
@@ -41,7 +41,7 @@ exports.signUp = catchAsync(async (request, response, next) => {
       }
     });
   } else {
-    response.send("User Already Exists");
+    response.send({ msg: "User Already Exists" });
   }
 });
 
@@ -51,7 +51,7 @@ exports.login = catchAsync(async (request, response, next) => {
   let result1 = await userDetails.find({ mailId: mailId });
   if (result1.length === 0) {
     response.status(400);
-    response.send({ error_msg: "Invalid User" });
+    response.send({ msg: "Invalid User" });
   } else {
     const isPasswordMatched = await bcrypt.compare(
       password,
@@ -62,10 +62,10 @@ exports.login = catchAsync(async (request, response, next) => {
         mailId: mailId,
       };
       const jwtToken = jwt.sign(payload, process.env.JWT_SECRET_KEY);
-      response.send({ jwt_token: jwtToken });
+      response.send({ jwt_token: jwtToken, msg: "Login Successful" });
     } else {
       response.status(400);
-      response.send({ error_msg: "Invalid Password" });
+      response.send({ msg: "Invalid Password" });
     }
   }
 });
@@ -100,5 +100,5 @@ exports.otp = catchAsync(async (request, response) => {
     }
   });
   response.status(200);
-  response.send({ otp: random });
+  response.send({ otp: random, msg: `Otp sent to mail` });
 });

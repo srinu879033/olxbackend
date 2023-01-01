@@ -3,6 +3,7 @@ const app = express();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
+const productRoutes = require("./routes/productRoutes");
 const cors = require("cors");
 dotenv.config();
 
@@ -19,6 +20,7 @@ mongoose.connect(process.env.MONGO_URI, (err) => {
 app.use(cors());
 app.use(express.json());
 app.use("/", authRoutes);
+app.use("/products", productRoutes);
 app.get("/", async (req, res) => {
   res.send("Welcome To Olx Server");
 });
