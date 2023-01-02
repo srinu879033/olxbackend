@@ -21,9 +21,11 @@ app.use(cors());
 app.use(express.json());
 app.use("/", authRoutes);
 app.use("/products", productRoutes);
+
 app.get("/", async (req, res) => {
   res.send("Welcome To Olx Server");
 });
+
 app.listen(PORT, () => {
   console.log("Welcome to OLX server");
 });

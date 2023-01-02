@@ -8,6 +8,7 @@ const productDetails = new mongoose.Schema(
     status: { type: String, default: "unsold" },
     image_urls: { type: Array, default: [] },
     uploadedBy: { type: String, required: [true, "Add the Id of Uploader"] },
+    boughtBy: { type: String, default: "" },
     description: { type: String, default: "" },
   },
   { timestamps: true }
