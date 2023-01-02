@@ -45,14 +45,14 @@ exports.getIndividualProducts = catchAsync(async (request, response, next) => {
 exports.addNewProduct = catchAsync(async (request, response, next) => {
   const { name, price, description = "", image_urls = [] } = request.body;
   try {
-    const uploaderData = await getUserData();
+    const uploaderData = await getUserData(request, response);
     const result = await productDetails.create({
       _id: mongoose.Types.ObjectId(),
       name,
       price,
       description,
       image_urls,
-      uploadedBy: uploaderData[0]._id,
+      uploadedBy: uploaderData._id,
     });
     response.send({ msg: "Product added Successfully" });
   } catch (err) {
@@ -93,7 +93,7 @@ exports.buyProduct = catchAsync(async (request, response, next) => {
   try {
     const userData = await getUserData(request, response);
     const { id } = request.body;
-    console.log(id, userData);
+
     const result = await productDetails.findOneAndUpdate(
       { _id: id, status: "unsold" },
       { boughtBy: userData._id, status: "sold" },
